@@ -7,7 +7,7 @@ options = {}
 opts = OptionParser.new
 opts.banner = "Usage: tweetlog [options]"
 opts.on("-q", "--quiet", "Do not produce output") { |quiet| options[:quiet] = quiet }
-opts.on("-n", "--dry-run", "Do not post status update") { |dryrun| options[:dryrun] = dryrun }
+opts.on("-d", "--dry-run", "Do not post status update") { |dryrun| options[:dryrun] = dryrun }
 opts.parse!
 
 def configuration_usage
@@ -31,3 +31,5 @@ status = ARGV[1]
 puts "[DRY RUN]" if options[:dryrun] && !options[:quiet]
 puts "@#{username}: #{status}" unless options[:quiet]
 client.update(status) unless options[:dryrun]
+
+return 0
