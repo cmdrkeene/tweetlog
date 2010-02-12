@@ -4,7 +4,7 @@ Update twitter from the command line
 
 # Configuration
 
-Store auth credentials in home, separated with a colon"
+Store auth credentials in home, separated with a colon
 
     $ cat ~/.tweetlog
     <username>:<password>
