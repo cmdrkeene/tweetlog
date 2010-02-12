@@ -1,0 +1,33 @@
+#!/usr/bin/ruby
+require "rubygems"
+require "twitter"
+require "optparse"
+
+options = {}
+opts = OptionParser.new
+opts.banner = "Usage: tweetlog [options]"
+opts.on("-q", "--quiet", "Do not produce output") { |quiet| options[:quiet] = quiet }
+opts.on("-n", "--dry-run", "Do not post status update") { |dryrun| options[:dryrun] = dryrun }
+opts.parse!
+
+def configuration_usage
+  puts "# Store auth credentials in home, separated with a colon"
+  puts "$ cat ~/.tweetlog"
+  puts "<username>:<password>"
+  exit
+end
+
+# Config
+config_path = "#{ENV['HOME']}/.tweetlog"
+configuration_usage unless File.exists?(config_path)
+username, password = File.read(config_path).split(':')
+
+# Setup
+auth = Twitter::HTTPAuth.new(username, password)
+client = Twitter::Base.new(auth)
+status = ARGV[1]
+
+# Tweet
+puts "[DRY RUN]" if options[:dryrun] && !options[:quiet]
+puts "@#{username}: #{status}" unless options[:quiet]
+client.update(status) unless options[:dryrun]
